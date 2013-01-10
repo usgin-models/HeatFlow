@@ -1,0 +1,127 @@
+<xs:schema xmlns:aasg="http://stategeothermaldata.org/uri-gin/aasg/xmlschema/heatflow/1.23" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml" xmlns:gmlsf="http://www.opengis.net/gmlsf" targetNamespace="http://stategeothermaldata.org/uri-gin/aasg/xmlschema/heatflow/1.23" elementFormDefault="qualified" version="01.23">
+	<xs:import namespace="http://www.opengis.net/gml" schemaLocation="http://schemas.opengis.net/gml/3.1.1/base/gml.xsd"/>
+	<xs:import namespace="http://www.opengis.net/gmlsf" schemaLocation="http://schemas.opengis.net/gml/3.1.1/profiles/gmlsfProfile/1.0.0/gmlsfLevels.xsd"/>
+	<xs:annotation>
+		<!-- This XSD document, including XML schema, indicates the content requested for heat flow measurement data obtained for the AASG geothermal data project.  Typically heat flow measurements are obtained to determine the heat distribution through measuring the radioactive heat producing elements in a sample. The HeaderURI for a particular borehole (well for simple wells) is the cross-referencing link (foreign key) used to associate the header record, well logs, temperature measurements, and other information from a particular borehole.  Each measurement should have a unique ObservationURI. -->
+		<!--This XSD document was created on 2011-10-31 by Celia Coleman, AZGS.  This schema is based on the data available in the AASG Web Feature Services created for the heat flow measurements of samples collected from boreholes and core.  Later versions include samples from the surface. -->
+		<xs:appinfo source="http://schemas.opengis.net/gml/3.1.1/profiles/gmlsfProfile/1.0.0/gmlsfLevels.xsd">
+			<gmlsf:ComplianceLevel>0</gmlsf:ComplianceLevel>
+			<gmlsf:GMLProfileSchema>
+http://schemas.opengis.net/gml/3.1.1/profiles/gmlsfProfile/1.0.0/gmlsf.xsd </gmlsf:GMLProfileSchema>
+		</xs:appinfo>
+	</xs:annotation>
+	<xs:element name="HeatFlow" type="aasg:HeatFlowType" substitutionGroup="gml:_Feature"/>
+	<xs:complexType name="HeatFlowType">
+		<xs:complexContent>
+			<xs:extension base="gml:AbstractFeatureType">
+				<xs:sequence>
+					<xs:element name="OBJECTID" type="xs:int" minOccurs="0"/>
+					<xs:element name="ObservationURI">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="255"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="ObservationName" type="xs:string"/>
+					<xs:element name="Label" type="xs:string"/>
+					<xs:element name="HeatFlowType" type="xs:string"/>
+					<xs:element name="RelatedHeatFlowIntervalsURI" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="255"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="HeaderURI">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="255"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="APINo" type="xs:string" minOccurs="0"/>
+					<xs:element name="WellName" type="xs:string" minOccurs="0"/>
+					<xs:element name="OtherID" type="xs:string" minOccurs="0"/>
+					<xs:element name="Owner" type="xs:string" minOccurs="0"/>
+					<xs:element name="LeaseName" type="xs:string" minOccurs="0"/>
+					<xs:element name="Field" type="xs:string" minOccurs="0"/>
+					<xs:element name="County" type="xs:string"/>
+					<xs:element name="State" type="xs:string"/>
+					<xs:element name="LatDegreeWGS84" type="xs:double"/>
+					<xs:element name="LongDegreeWGS84" type="xs:double"/>
+					<xs:element name="LocationUncertaintyStatement" type="xs:string" minOccurs="0"/>
+					<xs:element name="PLSS_Meridians" type="xs:string" minOccurs="0"/>
+					<xs:element name="Township" type="xs:string" minOccurs="0"/>
+					<xs:element name="Range" type="xs:string" minOccurs="0"/>
+					<xs:element name="Section_" type="xs:double" minOccurs="0"/>
+					<xs:element name="SectionPart" type="xs:string" minOccurs="0"/>
+					<xs:element name="TectonicProvince" type="xs:string" minOccurs="0"/>
+					<xs:element name="OtherLocationName" type="xs:string" minOccurs="0"/>
+					<xs:element name="PublicationSource" type="xs:string"/>
+					<xs:element name="AdditionalSources" type="xs:string" minOccurs="0"/>
+					<xs:element name="RelatedResource" type="xs:string" minOccurs="0"/>
+					<xs:element name="WellType" type="xs:string"/>
+					<xs:element name="WellDrillDate" type="xs:string" minOccurs="0"/>
+					<xs:element name="WellDrillDateType" type="xs:string" minOccurs="0"/>
+					<xs:element name="Elevation" type="xs:double" minOccurs="0"/>
+					<xs:element name="ElevationType" type="xs:string" minOccurs="0"/>
+					<xs:element name="DepthUnits" type="xs:string"/>
+					<xs:element name="DrillerTotalDepth" type="xs:double"/>
+					<xs:element name="TimeSinceCirculation" type="xs:string" minOccurs="0"/>
+					<xs:element name="TemperatureUnits" type="xs:string"/>
+					<xs:element name="TemperatureMeasureType" type="xs:string"/>
+					<xs:element name="SurfaceTemperature" type="xs:double" minOccurs="0"/>
+					<xs:element name="BHT" type="xs:double" minOccurs="0"/>
+					<xs:element name="BHTCorrectedValue" type="xs:double" minOccurs="0"/>
+					<xs:element name="BHTCorrectionType" type="xs:string" minOccurs="0"/>
+					<xs:element name="EqLog_MeasurementDate" type="xs:string" minOccurs="0"/>
+					<xs:element name="EqLog_TotalDepth" type="xs:double" minOccurs="0"/>
+					<xs:element name="EqLogTemperatureTop" type="xs:double" minOccurs="0"/>
+					<xs:element name="EqLogTemperatureMax" type="xs:double" minOccurs="0"/>
+					<xs:element name="EqLogTemperatureBottom" type="xs:double" minOccurs="0"/>
+					<xs:element name="SiteHeatFlow" type="xs:double"/>
+					<xs:element name="SiteValueMethod" type="xs:string"/>
+					<xs:element name="Intervals" type="xs:double"/>
+					<xs:element name="IntervalTopDepth" type="xs:double"/>
+					<xs:element name="IntervalBottomDepth" type="xs:double"/>
+					<xs:element name="ThermalConductivityUnits" type="xs:string"/>
+					<xs:element name="IntervalThermalConductivity" type="xs:double" minOccurs="0"/>
+					<xs:element name="SE_Conductivity" type="xs:double" minOccurs="0"/>
+					<xs:element name="ConductivitySampleType" type="xs:string" minOccurs="0"/>
+					<xs:element name="ConductivityNumSamples" type="xs:string" minOccurs="0"/>
+					<xs:element name="ConductivityMeasuredURI" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="255"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="GradientUnits" type="xs:string"/>
+					<xs:element name="IntervalUncorrectedGradient" type="xs:double"/>
+					<xs:element name="SE_UncorrectedGradient" type="xs:string" minOccurs="0"/>
+					<xs:element name="IntervalCorrectedGradient" type="xs:double" minOccurs="0"/>
+					<xs:element name="SE_CorrectedGradient" type="xs:string" minOccurs="0"/>
+					<xs:element name="IntervalCorrectedGradientMethod" type="xs:string" minOccurs="0"/>
+					<xs:element name="HeatFlowUnits" type="xs:string"/>
+					<xs:element name="IntervalUncorrectedHeatFlow" type="xs:double" minOccurs="0"/>
+					<xs:element name="SE_UncorrectedHeatFlow" type="xs:string" minOccurs="0"/>
+					<xs:element name="IntervalCorrectedHeatFlow" type="xs:double"/>
+					<xs:element name="SE_CorrectedHeatFlow" type="xs:string" minOccurs="0"/>
+					<xs:element name="IntervalHF_QualityCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="HF_QualityStatisticsMethod" type="xs:string" minOccurs="0"/>
+					<xs:element name="HeatGenerationUnits" type="xs:string" minOccurs="0"/>
+					<xs:element name="HeatGeneration" type="xs:double" minOccurs="0"/>
+					<xs:element name="HG_NumberSamples" type="xs:string" minOccurs="0"/>
+					<xs:element name="WaterTableTop" type="xs:double" minOccurs="0"/>
+					<xs:element name="WaterTableTemperature" type="xs:double" minOccurs="0"/>
+					<xs:element name="LithologyInformation" type="xs:string" minOccurs="0"/>
+					<xs:element name="FormationName" type="xs:string" minOccurs="0"/>
+					<xs:element name="Notes" type="xs:string" minOccurs="0"/>
+					<xs:element name="Shape" type="gml:PointPropertyType"/>
+					<xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>
