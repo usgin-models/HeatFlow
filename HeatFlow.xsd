@@ -2,8 +2,8 @@
 	<xs:import namespace="http://www.opengis.net/gml" schemaLocation="http://schemas.opengis.net/gml/3.1.1/base/gml.xsd"/>
 	<xs:import namespace="http://www.opengis.net/gmlsf" schemaLocation="http://schemas.opengis.net/gml/3.1.1/profiles/gmlsfProfile/1.0.0/gmlsfLevels.xsd"/>
 	<xs:annotation>
-		<!-- This XSD document, including XML schema, indicates the content requested for heat flow measurement data obtained for the AASG geothermal data project.  Typically heat flow measurements are obtained to determine the heat distribution through measuring the radioactive heat producing elements in a sample. The HeaderURI for a particular borehole (well for simple wells) is the cross-referencing link (foreign key) used to associate the header record, well logs, temperature measurements, and other information from a particular borehole.  Each measurement should have a unique ObservationURI. -->
-		<!--This XSD document was created on 2011-10-31 by Celia Coleman, AZGS.  This schema is based on the data available in the AASG Web Feature Services created for the heat flow measurements of samples collected from boreholes and core.  Later versions include samples from the surface. -->
+		<!-- This XSD document, including XML schema, indicates the content requested for heat flow measurement data obtained for the AASG geothermal data project. Typically heat flow measurements are obtained to determine the heat distribution through measuring the radioactive heat producing elements in a sample. The HeaderURI for a particular borehole (well for simple wells) is the cross-referencing link (foreign key) used to associate the header record, well logs, temperature measurements, and other information from a particular borehole. Each measurement should have a unique ObservationURI. -->
+		<!--Annotated version 1.23.1. This XSD document was created on 2011-10-31 by Celia Coleman, AZGS. This schema is based on the data available in the AASG Web Feature Services created for the heat flow measurements of samples collected from boreholes and core. Later versions include samples from the surface. Field Description annotations standardized 2013-08-22 by Esty Pape, AZGS.-->
 		<xs:appinfo source="http://schemas.opengis.net/gml/3.1.1/profiles/gmlsfProfile/1.0.0/gmlsfLevels.xsd">
 			<gmlsf:ComplianceLevel>0</gmlsf:ComplianceLevel>
 			<gmlsf:GMLProfileSchema>
@@ -15,18 +15,40 @@ http://schemas.opengis.net/gml/3.1.1/profiles/gmlsfProfile/1.0.0/gmlsf.xsd </gml
 		<xs:complexContent>
 			<xs:extension base="gml:AbstractFeatureType">
 				<xs:sequence>
-					<xs:element name="OBJECTID" type="xs:int" minOccurs="0"/>
+					<xs:element name="OBJECTID" type="xs:int" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Integer record count, added by ArcGIS servers during service deployment; not required but cannot be removed when deploying from ArcGIS feature class. Not user maintained, so this element appears in XML implementation but not in the Content Model Template.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 					<xs:element name="ObservationURI">
+						<xs:annotation>
+							<xs:documentation>Unique identifier for this observation. This is the identifier (Uniform Resource Identifier) that will be used to cross-reference data, samples, and other observations to the observation represented by this record. Best practice is to define an http URI that will dereference to a normative description of the observation. USGIN URI's may be redirected to any URL using the http://resources.usgin.org redirector; contact the USGIN development team at AZGS for instructions.</xs:documentation>
+						</xs:annotation>
 						<xs:simpleType>
 							<xs:restriction base="xs:string">
 								<xs:maxLength value="255"/>
 							</xs:restriction>
 						</xs:simpleType>
 					</xs:element>
-					<xs:element name="ObservationName" type="xs:string"/>
-					<xs:element name="Label" type="xs:string"/>
-					<xs:element name="HeatFlowType" type="xs:string"/>
+					<xs:element name="ObservationName" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>Common or human-readable name by which the feature is known. Recommend using only web-safe characters (a-z A-Z 0-9 _-.) in the name. Be consistent in the naming convention used within any given dataset.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Label" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>Short text string for labeling the feature on maps. Can be the same as feature name. A label may be an OtherLocationName, OtherID or the Name or some combination.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="HeatFlowType" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>Valid terms are SiteHF or IntervalHF Site = 'best' or 'highest confidence' value for the location. Interval = a unique combination of temperature, thermal conductivity, and heatflow for a location. If there is only one set of data (a single observation) for a location, use 'Site' in this field. If subsequent values become become available for a given location, the 'Site' value must be updated accordingly.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 					<xs:element name="RelatedHeatFlowIntervalsURI" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>If Heat Flow value is based on multiple intervals, observationURIs are listed here. Unique identifier for this observation. This is the identifier (Uniform Resource Identifier) that will be used to cross-reference data, samples, and other observations to the observation represented by this record. Best practice is to define an http URI that will dereference to a normative description of the observation. USGIN URI's may be redirected to any URL using the http://resources.usgin.org redirector; contact the USGIN development team at AZGS for instructions.  </xs:documentation>
+						</xs:annotation>
 						<xs:simpleType>
 							<xs:restriction base="xs:string">
 								<xs:maxLength value="255"/>
@@ -34,91 +56,385 @@ http://schemas.opengis.net/gml/3.1.1/profiles/gmlsfProfile/1.0.0/gmlsf.xsd </gml
 						</xs:simpleType>
 					</xs:element>
 					<xs:element name="HeaderURI">
+						<xs:annotation>
+							<xs:documentation>Unique identifier for the borehole indicated by this record. This identifier should identify the physical well, based on the API number if available. Otherwise, the URI should incorporate one of the OtherID values. Please contact the USGIN development team at AZGS for instructions.</xs:documentation>
+						</xs:annotation>
 						<xs:simpleType>
 							<xs:restriction base="xs:string">
 								<xs:maxLength value="255"/>
 							</xs:restriction>
 						</xs:simpleType>
 					</xs:element>
-					<xs:element name="APINo" type="xs:string" minOccurs="0"/>
-					<xs:element name="WellName" type="xs:string" minOccurs="0"/>
-					<xs:element name="OtherID" type="xs:string" minOccurs="0"/>
-					<xs:element name="Owner" type="xs:string" minOccurs="0"/>
-					<xs:element name="LeaseName" type="xs:string" minOccurs="0"/>
-					<xs:element name="Field" type="xs:string" minOccurs="0"/>
-					<xs:element name="County" type="xs:string"/>
-					<xs:element name="State" type="xs:string"/>
-					<xs:element name="LatDegreeWGS84" type="xs:double"/>
-					<xs:element name="LongDegreeWGS84" type="xs:double"/>
-					<xs:element name="LocationUncertaintyStatement" type="xs:string" minOccurs="0"/>
-					<xs:element name="PLSS_Meridians" type="xs:string" minOccurs="0"/>
-					<xs:element name="Township" type="xs:string" minOccurs="0"/>
-					<xs:element name="Range" type="xs:string" minOccurs="0"/>
-					<xs:element name="Section_" type="xs:double" minOccurs="0"/>
-					<xs:element name="SectionPart" type="xs:string" minOccurs="0"/>
-					<xs:element name="TectonicProvince" type="xs:string" minOccurs="0"/>
-					<xs:element name="OtherLocationName" type="xs:string" minOccurs="0"/>
-					<xs:element name="PublicationSource" type="xs:string"/>
-					<xs:element name="AdditionalSources" type="xs:string" minOccurs="0"/>
-					<xs:element name="RelatedResource" type="xs:string" minOccurs="0"/>
-					<xs:element name="WellType" type="xs:string"/>
-					<xs:element name="WellDrillDate" type="xs:string" minOccurs="0"/>
-					<xs:element name="WellDrillDateType" type="xs:string" minOccurs="0"/>
-					<xs:element name="Elevation" type="xs:double" minOccurs="0"/>
-					<xs:element name="ElevationType" type="xs:string" minOccurs="0"/>
-					<xs:element name="DepthUnits" type="xs:string"/>
-					<xs:element name="DrillerTotalDepth" type="xs:double"/>
-					<xs:element name="TimeSinceCirculation" type="xs:string" minOccurs="0"/>
-					<xs:element name="TemperatureUnits" type="xs:string"/>
-					<xs:element name="TemperatureMeasureType" type="xs:string"/>
-					<xs:element name="SurfaceTemperature" type="xs:double" minOccurs="0"/>
-					<xs:element name="BHT" type="xs:double" minOccurs="0"/>
-					<xs:element name="BHTCorrectedValue" type="xs:double" minOccurs="0"/>
-					<xs:element name="BHTCorrectionType" type="xs:string" minOccurs="0"/>
-					<xs:element name="EqLog_MeasurementDate" type="xs:string" minOccurs="0"/>
-					<xs:element name="EqLog_TotalDepth" type="xs:double" minOccurs="0"/>
-					<xs:element name="EqLogTemperatureTop" type="xs:double" minOccurs="0"/>
-					<xs:element name="EqLogTemperatureMax" type="xs:double" minOccurs="0"/>
-					<xs:element name="EqLogTemperatureBottom" type="xs:double" minOccurs="0"/>
-					<xs:element name="SiteHeatFlow" type="xs:double"/>
-					<xs:element name="SiteValueMethod" type="xs:string"/>
-					<xs:element name="Intervals" type="xs:double"/>
-					<xs:element name="IntervalTopDepth" type="xs:double"/>
-					<xs:element name="IntervalBottomDepth" type="xs:double"/>
-					<xs:element name="ThermalConductivityUnits" type="xs:string"/>
-					<xs:element name="IntervalThermalConductivity" type="xs:double" minOccurs="0"/>
-					<xs:element name="SE_Conductivity" type="xs:double" minOccurs="0"/>
-					<xs:element name="ConductivitySampleType" type="xs:string" minOccurs="0"/>
-					<xs:element name="ConductivityNumSamples" type="xs:string" minOccurs="0"/>
+					<xs:element name="APINo" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>API number for the the wellbore/borehole identified by the HeaderURI. If an API number is unavailable this field is empty. Usage of hyphens is optional, according to standard practice in each state. API number refers to the American Petroleum Institute number. Each oil, gas, or geothermal well drilled in the United States has a unique API number; this number identifies all boreholes or recompletions associated with the original wellbore. See the Data Valid Terms tab or http://www.spwla.org/technical/api-technical for more information about API numbering.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="WellName" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Human-intelligible name by which the feature  is known. Convention for wellName is: Name = Operator + Well No. + Lease Owner. A well may consist of multiple boreholes (wellbores). If these are distinguished by different records in this table, they should have the same well names, but distinct BoreholeNames, and at least one identifier (APINo or OtherID) that is unique to the borehole.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="OtherID" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Alternative identifier(s) for the feature. 'Indicate the authority from which the OtherID is derived with a short (lower case) prefix delimited by a colon ':' If identifiers from multiple different authorities are available, delimit these identifiers with the pipe '|' character. For example, if a well were known to the Arizona Geological Survey (AZGS) by the id number 1337, the prefix would be azgs: and the identifier string would be azgs:1337. Any such prefixes used to scope identifiers should be explained in the dataset metadata.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Owner" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Companies, individuals, or other entities who own the property. Separate multiple with a pipe '|' character.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="LeaseName" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Name of lease; usually incorporates property owner.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Field" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Name of the field in which the borehole is located. If multiple names are or have been used for the field, separate values with a pipe '|' character.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="County" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>Required. County name. If unknown or not applicable use 'missing'. If offshore, specify 'offshore' in this field.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="State" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>Required. State name without abbreviations. If unknown or not applicable use 'missing'. For offshore locations, specify the governing or nearest state and list the county as 'offshore'.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="LatDegreeWGS84" type="xs:double">
+						<xs:annotation>
+							<xs:documentation>Latitude coordinate for the surface location of the feature using WGS1984; values should be provided with at least 4 significant digits for sufficient precision (7 decimal places is recommended by the USGS (OFR 02-463, p. 6). Use decimal degrees.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="LongDegreeWGS84" type="xs:double">
+						<xs:annotation>
+							<xs:documentation>Longitude coordinate for the surface location of the feature using WGS1984; values should be provided with at least 4 significant digits for sufficient precision (7 decimal places is recommended by the USGS (OFR 02-463, p. 6). Use decimal degrees.</xs:documentation>
+						</xs:annotation>
+						</xs:element>
+					<xs:element name="LocationUncertaintyStatement" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Information on how the original location was determined, e.g.: 1:250,000 map, gps unit, Google Earth, PLSS Conversion, Spatial Datum Conversion, e.g., NAD27 to WGS84.</xs:documentation>
+						</xs:annotation>
+						</xs:element>
+					<xs:element name="PLSS_Meridians" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>List north-south baseline and east-west meridian that Townships and Ranges are referenced to.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Township" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Township in PLSS grid, relative to reported baseline. Formatting and punctuation should be consistent for all locations referenced to the same baseline and meridian. Recommend adding leading '0's so that all number strings are the same length (typically 2 or occasionally 3 digits). Examples 01N, 112S, 001N.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Range" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Range in PLSS grid, relative to reported meridian. Formatting and punctuation should be consistent for all locations referenced to the same baseline meridian. See instructions on TWP field.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Section_" type="xs:double" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>PLSS section number. Must be numeric or null. Some surveys include half sections indicated by a 'nn.5' designation, where n indicates a number.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="SectionPart" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Subdivision of a PLSS section.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="TectonicProvince" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Tectonic division of a region based on geology.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="OtherLocationName" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Names of geographic features associated with the site that will be useful as search criteria to locate the information for this site. If identifiers from multiple different authorities are available, separate these identifiers with the pipe character '|'.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="PublicationSource" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>Most recent source of the Heat Flow Value, e.g., journal, book, report, internet site, etc. Consists of 2 parts: Primary Author's last name, Year Published; if available include the Publication Unique ID. If unpublished, include owner/location of data (e.g., unpublished SMU 2011).</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AdditionalSources" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>For more than one publication, list older references here. List data sources for other parameters, e. g., conductivity, climate data, surface temperature, cross-sections, etc; text description of observation lineage / provenance.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="RelatedResource" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>This may be one to many http links to resources (logs, pictures or other documents if available online. Should be an http:// address (URL)) related to the observation described in each record. Delimit multiple values with the pipe '|' character.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="WellType" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>Type of well that contains the borehole.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="WellDrillDate" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Date of well activity entered in WellDrillDateType field. Specify day, month and year; Will be displayed using ISO 8601 date and time (yyyy-mm-ddT:hh:mm) format. If only the year is known, enter month and day as 'Jan. 1', (or '1/1/', or '1-1-', or 'January 1,').All dates will be converted to yyyy-mm-ddT:hh:mm.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="WellDrillDateType" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Provide what the 'drill date' represents. e.g. Spud/Start, Completion, Well Header date, etc.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Elevation" type="xs:double" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Elevation of the well. 3 decimal places is recommended by the USGS (OFR 02-463, p.6). Elevations should be reported relative to mean sea level (MSL).</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ElevationType" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Specify where value in elevation field refers to. Valid terms include: GL-Ground level, KB - Kelly bushing, DF - Derrick floor, well collar, other, unknown.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="DepthUnits" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>Units used to report all elevation and depth information.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="DrillerTotalDepth" type="xs:double">
+						<xs:annotation>
+							<xs:documentation>Length of borehole identified by the HeaderURI, from borehole origin to bottom of borehole.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="TimeSinceCirculation" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The amount of time since circulation in well stopped before temperature was taken. Stated on Well Log Header.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="TemperatureUnits" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>Report temperatures in degrees Fahrenheit or Celsius. Use same units throughout this document.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="TemperatureMeasureType" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>Method used to collect temperatures. Valid terms include: BHT (Bottom Hole Temperature from well log header), EQ (Equilibrium or precision data collected using temperature logging gear), MRT (Maximum Reading Thermometers), PL (from Pressure Log), Inferred (e.g. from Heat Production), Other, or Unknown.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="SurfaceTemperature" type="xs:double" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Average Surface Ground Temperature at site based on shallow drilling (~10 m) or the average annual air temperature for the past decade.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="BHT" type="xs:double" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Bottom Hole Temperature or Maximum Temperature from drilling log header of oil/gas well or well with only the log header available. Report temperatures in either degrees Fahrenheit or Celsius. Use same units throughout this document.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="BHTCorrectedValue" type="xs:double" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Bottom Hole Temperature value corrected for drilling fluid influence on measurement. Estimate of an in situ value.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="BHTCorrectionType" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Method used to correct the BHT to what is estimated as an in situ value, e.g., Harrison, Förster, Horner, etc.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="EqLog_MeasurementDate" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Equilibrium Log Date for the record (date on which observation, measurement or test was made or specimen was collected. Day, month and year must be specified; Excel will display using ISO 8601 date and time (yyyy-mm-ddT:hh:mm) format. If only the year is known, enter month and day as 'Jan. 1', (or '1/1/', or '1-1-', or 'January 1,'). All dates will be converted to yyyy-mm-ddThh:mm.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="EqLog_TotalDepth" type="xs:double" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Temperature Log or MRT (Maximum Reading Thermometer) total depth measured.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="EqLogTemperatureTop" type="xs:double" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Shallowest depth of a measured hole temperature.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="EqLogTemperatureMax" type="xs:double" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Hottest measured hole temperature.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="EqLogTemperatureBottom" type="xs:double" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Deepest depth of measured hole temperature.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="SiteHeatFlow" type="xs:double">
+						<xs:annotation>
+							<xs:documentation>Highest confidence site value for heat flow based on all available intervals, corrections, quality confidence, etc. Value used for Heat Flow maps. (preferred units are mW/m2).</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="SiteValueMethod" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>Text description of method used to determine site values - instrumentation, logging rate, correction or extrapolation process, how time since circulation was determined, etc. Data provider should indicate QA/QC performed on the data, including individual or institution, time frame and depth of quality check. Single value, Mean Average, average after removal of specific 'outlier' interval values, etc.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Intervals" type="xs:double">
+						<xs:annotation>
+							<xs:documentation>Number of interval measurements within this well. Default is 1.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="IntervalTopDepth" type="xs:double">
+						<xs:annotation>
+							<xs:documentation>Depth to the top of the interval being tested.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="IntervalBottomDepth" type="xs:double">
+						<xs:annotation>
+							<xs:documentation>Depth to the bottom of the interval being tested.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ThermalConductivityUnits" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>Units used for thermal conductivity value. Preferred units are Watt per meter per Kelvin (W m-1/K-1).</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="IntervalThermalConductivity" type="xs:double" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Laboratory measurement or estimated in situ rock thermal conductivity value for the depth interval. If 'intervals' = 1 (default) this value should be identical to SiteThermalConductivity.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="SE_Conductivity" type="xs:double" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Standard Error for Conductivity Value.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ConductivitySampleType" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Rock Cuttings, Core, Estimate, Cross-Section Name, Reference Name, Log Type, etc. When known, include Type and reference, e.g., Cross-Section: COSUNA CSR29; Estimate based on USGS Valley Fill value.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ConductivityNumSamples" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Number of conductivity samples run to get measurement value.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 					<xs:element name="ConductivityMeasuredURI" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Related information on Conductivity template; give link information. Unique identifier for this observation. This is the identifier (Uniform Resource Identifier) that will be used to cross-reference data, samples, and other observations to the observation represented by this record. Best practice is to define an http URI that will dereference to a normative description of the observation. USGIN URI's may be redirected to any URL using the http://resources.usgin.org redirector; contact the USGIN development team at AZGS for instructions.</xs:documentation>
+						</xs:annotation>
 						<xs:simpleType>
 							<xs:restriction base="xs:string">
 								<xs:maxLength value="255"/>
 							</xs:restriction>
 						</xs:simpleType>
 					</xs:element>
-					<xs:element name="GradientUnits" type="xs:string"/>
-					<xs:element name="IntervalUncorrectedGradient" type="xs:double"/>
-					<xs:element name="SE_UncorrectedGradient" type="xs:string" minOccurs="0"/>
-					<xs:element name="IntervalCorrectedGradient" type="xs:double" minOccurs="0"/>
-					<xs:element name="SE_CorrectedGradient" type="xs:string" minOccurs="0"/>
-					<xs:element name="IntervalCorrectedGradientMethod" type="xs:string" minOccurs="0"/>
-					<xs:element name="HeatFlowUnits" type="xs:string"/>
-					<xs:element name="IntervalUncorrectedHeatFlow" type="xs:double" minOccurs="0"/>
-					<xs:element name="SE_UncorrectedHeatFlow" type="xs:string" minOccurs="0"/>
-					<xs:element name="IntervalCorrectedHeatFlow" type="xs:double"/>
-					<xs:element name="SE_CorrectedHeatFlow" type="xs:string" minOccurs="0"/>
-					<xs:element name="IntervalHF_QualityCode" type="xs:string" minOccurs="0"/>
-					<xs:element name="HF_QualityStatisticsMethod" type="xs:string" minOccurs="0"/>
-					<xs:element name="HeatGenerationUnits" type="xs:string" minOccurs="0"/>
-					<xs:element name="HeatGeneration" type="xs:double" minOccurs="0"/>
-					<xs:element name="HG_NumberSamples" type="xs:string" minOccurs="0"/>
-					<xs:element name="WaterTableTop" type="xs:double" minOccurs="0"/>
-					<xs:element name="WaterTableTemperature" type="xs:double" minOccurs="0"/>
-					<xs:element name="LithologyInformation" type="xs:string" minOccurs="0"/>
-					<xs:element name="FormationName" type="xs:string" minOccurs="0"/>
-					<xs:element name="Notes" type="xs:string" minOccurs="0"/>
-					<xs:element name="Shape" type="gml:PointPropertyType"/>
+					<xs:element name="GradientUnits" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>°C/km (preferred) or °C/m or °F/100ft or °F/ft.  Note: degrees Celsius per kilometer (°C/km) is equivalent to milliwatts Kelvin per meter (mKm⁻1).</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="IntervalUncorrectedGradient" type="xs:double">
+						<xs:annotation>
+							<xs:documentation>Gradient determined from initial temperatures for interval depth.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="SE_UncorrectedGradient" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Standard Error for Uncorrected Gradient Value; this can also be used for comments on gradient calculation.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="IntervalCorrectedGradient" type="xs:double" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Thermal gradient measurement for the depth interval with corrected temperature and terrain corrections applied.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="SE_CorrectedGradient" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Standard Error for Corrected Gradient Value; this can also be used for comments on gradient calculation.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="IntervalCorrectedGradientMethod" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>How correction was determined: "2-D Terrain" or "3-D Terrain" or "Corrected BHT" or "Climate" or "Hydrology" or "other". Text description of how the measurement was made - instrumentation, logging rate, correction or extrapolation process, how time since circulation was determined, etc. Data provider should indicate QA/QC performed on the data, including individual or institution, time frame and depth of quality check.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="HeatFlowUnits" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>Units used for heat flow values. Preferred units are milliWatts per meter squared (mW/m2).</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="IntervalUncorrectedHeatFlow" type="xs:double" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Uncorrected heat flow value for the depth interval. Based on thermal conductivity and uncorrected gradient.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="SE_UncorrectedHeatFlow" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Standard Error for Heat Flow Value.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="IntervalCorrectedHeatFlow" type="xs:double">
+						<xs:annotation>
+							<xs:documentation>Calculated or estimated corrected heat flow value based on corrected gradient and thermal conductivity. If 'Intervals' = 1 (default) this value will be identical to SiteHeatFlow. Possible to have only heat flow value from publication without gradient and conductivity information.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="SE_CorrectedHeatFlow" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Standard Error for Corrected Heat Flow Value. Free text to allow flexibility.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="IntervalHF_QualityCode" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Quality Code to indicate confidence of the heat flow value for well. When there is more than one well interval, add Heat Flow Quality to the primary interval. For Equilibrium Logs: A - High Quality Data: Deeper than 100 meters with at least a 50 meter linear gradient with corrections applied; B - Medium Quality Data: Deeper than 50 meters with gradient corrections applied; C - Poor Quality Data: Shallow; Isothermal; D - Use for background information but not mapping; G - Geothermal System: too high a value for regional maps; X - data accuracy low but want site recorded; For BHT Data: BHT-C: Many wells nearby with similar values; BHT-X: Single data source with no method to confirm accuracy of temperature or unreliable conductivity values. Other defined codes may be added.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="HF_QualityStatisticsMethod" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Method for determining the assigned Quality for heat flow values, e.g., Bullard Plot, Area Statistics, or Quality Code. Text description of how the measurement was made - instrumentation, logging rate, correction or extrapolation process, how time since circulation was determined, etc. Data provider should indicate QA/QC performed on the data, including individual or institution, time frame and depth of quality check.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="HeatGenerationUnits" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Units for Heat Generation. Preferred units are muWatts per meter cubed (μW/m3).</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="HeatGeneration" type="xs:double" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Calculated value(s) from K, U, Th for an interval or for a drill hole.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="HG_NumberSamples" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Number of Heat production samples used to determine the Heat Generation value.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="WaterTableTop" type="xs:double" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Depth for Top of Water Table based on log information. Depth units must be consistent with units stated above.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="WaterTableTemperature" type="xs:double" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Measured, calculated or inferred value from equilibrium temperature logging. Units must be consistent with temperature units above.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="LithologyInformation" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Description of the lithology of surface geology or geologic column for well interval, e.g. arkose, granite, limestone, sandstone, schist. Recommend using CGI simple lithology vocabulary (see tab in this workbook). Use to account for EarthChem Material, EarthChem Type, EarthChem Composition, alluvium, 36-40': gravels; etc.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="FormationName" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Name of geologic unit for interval section or BHT value of well. Include hierarchy of names if the unit is part of a higher-rank geologic unit, e.g. Group name/Formation name, or Formation/Member, or Group/ Formation. Spell out unit names in full.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Notes" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Any additional information to be provided, including description and other data not captured by the template, details about collection method, contact information for related parties (original collector, project PI), collection platform or Launch, etc.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Shape" type="gml:PointPropertyType">
+						<xs:annotation>
+							<xs:documentation>Added by GIS for WFS service; this element appears in the xml output, but is generated during service deployment from the latitude and longitude; therefore it doesn't appear in the template.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 					<xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
 				</xs:sequence>
 			</xs:extension>
