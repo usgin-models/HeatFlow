@@ -3,7 +3,7 @@
 	<xs:import namespace="http://www.opengis.net/gmlsf" schemaLocation="http://schemas.opengis.net/gml/3.1.1/profiles/gmlsfProfile/1.0.0/gmlsfLevels.xsd"/>
 	<xs:annotation>
 		<!-- This XSD document, including XML schema, indicates the content requested for heat flow measurement data obtained for the AASG geothermal data project. Typically heat flow measurements are obtained to determine the heat distribution through measuring the radioactive heat producing elements in a sample. The HeaderURI for a particular borehole (well for simple wells) is the cross-referencing link (foreign key) used to associate the header record, well logs, temperature measurements, and other information from a particular borehole. Each measurement should have a unique ObservationURI. -->
-		<!--Annotated version 1.23.1. This XSD document was created on 2011-10-31 by Celia Coleman, AZGS. This schema is based on the data available in the AASG Web Feature Services created for the heat flow measurements of samples collected from boreholes and core. Later versions include samples from the surface. Field Description annotations standardized 2013-08-22 by Esty Pape, AZGS.-->
+		<!--Version 1.23.2 changed date types to 'dateTime'. Annotated version 1.23.1. This XSD document was created on 2011-10-31 by Celia Coleman, AZGS. This schema is based on the data available in the AASG Web Feature Services created for the heat flow measurements of samples collected from boreholes and core. Later versions include samples from the surface. Field Description annotations standardized 2013-08-22 by Esty Pape, AZGS.-->
 		<xs:appinfo source="http://schemas.opengis.net/gml/3.1.1/profiles/gmlsfProfile/1.0.0/gmlsfLevels.xsd">
 			<gmlsf:ComplianceLevel>0</gmlsf:ComplianceLevel>
 			<gmlsf:GMLProfileSchema>
@@ -114,12 +114,12 @@ http://schemas.opengis.net/gml/3.1.1/profiles/gmlsfProfile/1.0.0/gmlsf.xsd </gml
 						<xs:annotation>
 							<xs:documentation>Longitude coordinate for the surface location of the feature using WGS1984; values should be provided with at least 4 significant digits for sufficient precision (7 decimal places is recommended by the USGS (OFR 02-463, p. 6). Use decimal degrees.</xs:documentation>
 						</xs:annotation>
-						</xs:element>
+					</xs:element>
 					<xs:element name="LocationUncertaintyStatement" type="xs:string" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Information on how the original location was determined, e.g.: 1:250,000 map, gps unit, Google Earth, PLSS Conversion, Spatial Datum Conversion, e.g., NAD27 to WGS84.</xs:documentation>
 						</xs:annotation>
-						</xs:element>
+					</xs:element>
 					<xs:element name="PLSS_Meridians" type="xs:string" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>List north-south baseline and east-west meridian that Townships and Ranges are referenced to.</xs:documentation>
@@ -175,7 +175,7 @@ http://schemas.opengis.net/gml/3.1.1/profiles/gmlsfProfile/1.0.0/gmlsf.xsd </gml
 							<xs:documentation>Type of well that contains the borehole.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="WellDrillDate" type="xs:string" minOccurs="0">
+					<xs:element name="WellDrillDate" type="xs:dateTime" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Date of well activity entered in WellDrillDateType field. Specify day, month and year; Will be displayed using ISO 8601 date and time (yyyy-mm-ddT:hh:mm) format. If only the year is known, enter month and day as 'Jan. 1', (or '1/1/', or '1-1-', or 'January 1,').All dates will be converted to yyyy-mm-ddT:hh:mm.</xs:documentation>
 						</xs:annotation>
@@ -240,7 +240,7 @@ http://schemas.opengis.net/gml/3.1.1/profiles/gmlsfProfile/1.0.0/gmlsf.xsd </gml
 							<xs:documentation>Method used to correct the BHT to what is estimated as an in situ value, e.g., Harrison, Förster, Horner, etc.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="EqLog_MeasurementDate" type="xs:string" minOccurs="0">
+					<xs:element name="EqLog_MeasurementDate" type="xs:dateTime" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Equilibrium Log Date for the record (date on which observation, measurement or test was made or specimen was collected. Day, month and year must be specified; Excel will display using ISO 8601 date and time (yyyy-mm-ddT:hh:mm) format. If only the year is known, enter month and day as 'Jan. 1', (or '1/1/', or '1-1-', or 'January 1,'). All dates will be converted to yyyy-mm-ddThh:mm.</xs:documentation>
 						</xs:annotation>
